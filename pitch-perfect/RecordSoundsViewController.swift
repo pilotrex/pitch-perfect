@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 
+
 class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
 
     var audioRecorder:AVAudioRecorder!
@@ -23,6 +24,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         super.viewDidLoad()
     }
     
+    
     override func viewWillAppear(animated: Bool) {
         tapToRecord.hidden = false
         stopButton.hidden = true
@@ -32,6 +34,8 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         // Dispose of any resources that can be recreated.
     }
 
+    ///
+    /// Performs recording function when button is pressed
     @IBAction func recording(sender: AnyObject) {
         recordLabel.hidden = false
         tapToRecord.hidden = true
@@ -42,7 +46,6 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         let recordingName = "temp.wav"
         let pathArray = [dirPath, recordingName]
         let filePath = NSURL.fileURLWithPathComponents(pathArray)
-        println(filePath)
         
         var session = AVAudioSession.sharedInstance()
         session.setCategory(AVAudioSessionCategoryPlayAndRecord, error: nil)
@@ -59,7 +62,6 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
             recordedAudio = RecordedAudio(filePathUrl:recorder.url, title:recorder.url.lastPathComponent)
             self.performSegueWithIdentifier("stopRecording", sender :recordedAudio)
         }else{
-            println("Recording was not successful")
             recordButton.enabled = true
             stopButton.hidden = true
         }

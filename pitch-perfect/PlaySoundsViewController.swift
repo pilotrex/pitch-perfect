@@ -1,3 +1,4 @@
+//  Audio Effects
 //
 //  PlaySoundsViewController.swift
 //  pitch-perfect
@@ -27,23 +28,28 @@ class PlaySoundsViewController: UIViewController {
         audioFile = AVAudioFile(forReading: receivedAudio.filePathUrl, error: nil)
     }
 
+    ///
+    /// Plays the recorded audio at half the speed
     @IBAction func slowButtonAction(sender: UIButton) {
         playAtRate(0.5)
     }
 
+    ///
+    /// Plays the recorded audio at a higher pitch
     @IBAction func playChipmunkAudio(sender: UIButton) {
         playAudioWithVariablePitch(1000)
     }
     
+    ///
+    /// Plays the recorded audio at a lower pitch
     @IBAction func playDarthVaderAudio(sender: UIButton) {
         playAudioWithVariablePitch(-1000)
     }
 
+    ///
+    /// Plays audio given a pitch value between -2400 to 2400
     private func playAudioWithVariablePitch(pitch:Float){
-        avAudioPlayer.stop()
-        audioEngine.stop()
-        audioEngine.reset()
-        
+        stopAll()
         var avAudioNode = AVAudioPlayerNode()
         audioEngine.attachNode(avAudioNode)
         var changePitchEffect = AVAudioUnitTimePitch()
@@ -53,27 +59,31 @@ class PlaySoundsViewController: UIViewController {
         audioEngine.connect(changePitchEffect, to: audioEngine.outputNode, format: nil)
         avAudioNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
         audioEngine.startAndReturnError(nil)
-        
         avAudioNode.play()
     }
     
 
+    ///
+    /// Plays the recorded audio at 50% faster speed
     @IBAction func fastButtonAction(sender: UIButton) {
         playAtRate(1.5)
     }
-    
-    private func playAtRate(rate :Float){
+
+    private func stopAll(){
+        audioEngine.stop()
+        audioEngine.reset()
         avAudioPlayer.stop()
         avAudioPlayer.currentTime = 0
+    }
+    
+    private func playAtRate(rate :Float){
+        stopAll()
         avAudioPlayer.rate = rate
         avAudioPlayer.play()
     }
     
     @IBAction func stopButtonAction(sender: UIButton) {
-        avAudioPlayer.stop()
-        avAudioPlayer.currentTime = 0
-        audioEngine.stop()
-        audioEngine.reset()
+        stopAll()
     }
     
     override func didReceiveMemoryWarning() {

@@ -1,3 +1,4 @@
+//  Recorded audio model
 //
 //  RecordedAudio.swift
 //  pitch-perfect
@@ -8,7 +9,7 @@
 
 import Foundation
 
-class RecordedAudio: NSObject{
+class RecordedAudio {
     var filePathUrl: NSURL!
     var title: String!
     
