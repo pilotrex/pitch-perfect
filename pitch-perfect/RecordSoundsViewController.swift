@@ -37,7 +37,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         tapToRecord.hidden = true
         stopButton.hidden = false
         recordButton.enabled = false
-        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as! String
         
         let recordingName = "temp.wav"
         let pathArray = [dirPath, recordingName]
@@ -67,9 +67,8 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if(segue.identifier == "stopRecording"){
-            let playSoundsVC:PlaySoundsViewController = segue.destinationViewController
-                as PlaySoundsViewController
-            let data = sender as RecordedAudio
+            let playSoundsVC:PlaySoundsViewController = (segue.destinationViewController as? PlaySoundsViewController)!
+            let data = sender as? RecordedAudio
             playSoundsVC.receivedAudio = data
         }
     }
